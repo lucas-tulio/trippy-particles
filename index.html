@@ -132,7 +132,7 @@
 				numVertices = 10000;
 				for(var i = 0; i < numVertices; i++) {
 
-					var theta = 2 * Math.PI * i * .01;
+					var theta = 2 * Math.PI * i * style;
 					var phi = Math.acos(2 * i - 1);
 
 					var x = (i/1000 * Math.sin(i/1000) * Math.cos(theta));
@@ -232,10 +232,8 @@
 						goUp = true;
 
 						var styleIncrement = 0.1;
-						if(style <= 0.00001) {
+						if(style <= 0.0001) {
 							styleIncrement = 10;
-						} else {
-							styleIncrement = 0.1;
 						}
 						style *= styleIncrement;
 					}
