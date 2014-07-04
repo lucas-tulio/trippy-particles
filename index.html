@@ -124,10 +124,13 @@
 					transparent:	true
 				});
 
-				// Cubies
+				// Animation settings
 				step = 1;
 				style = 0.1;
 				goUp = true;
+				styleDown = true;
+
+				// Structure
 				structure = new THREE.Geometry();
 				numVertices = 10000;
 				for(var i = 0; i < numVertices; i++) {
@@ -165,18 +168,17 @@
 			
 			function generateCircleTexture() {
 
-				// draw a circle in the center of the canvas
 				var size = 64;
 
-				// create canvas
+				// Create a canvas
 				var canvas = document.createElement('canvas');
 				canvas.width = size;
 				canvas.height = size;
 
-				// get context
+				// Context
 				var context = canvas.getContext('2d');
 
-				// draw circle
+				// Draw a circle
 				var centerX = size / 2;
 				var centerY = size / 2;
 				var radius = size / 2;
@@ -184,6 +186,8 @@
 				for(var i = 1; i < 33; i++) {
 					context.beginPath();
 					context.arc(centerX, centerY, (radius / 2) + (i / 2), 0, 2 * Math.PI, false);
+					// This will draw 32 circles on the same place, each a bit bigger and more transparent than the previous one
+					// It will make the borders of the dots look smooth
 					context.fillStyle = "rgba(255, 255, 255, " + (1 / i) + ")";
 					context.fill();
 				}
@@ -205,6 +209,7 @@
 
 			function animate() {
 				
+				// Move the dots around
 				for(var i = 0; i < numVertices; i++) {
 
 					if(step == 0) {
@@ -219,6 +224,8 @@
 
 					particleSystem.geometry.vertices[i].set(x, y, z);
 				}
+
+				// Controls the direction and looping of the animation
 				if(goUp) {
 					step *= 1.01;
 					
@@ -231,14 +238,32 @@
 					if(step <= 0.5) {
 						goUp = true;
 
-						var styleIncrement = 0.01;
-						if(style <= 0.001) {
-							styleIncrement = 1.01;
+						if(styleDown) {
+							style *= 0.1;
+
+							if(style <= 0.001) {
+								styleDown = false;
+							}
+						} else {
+							style *= 10;
+
+							if(style >= 0.1) {
+								styleDown = true;
+							}
 						}
-						style *= styleIncrement;
+
+						console.log("style = " + style);
+				if(styleDown) {
+					console.log("style going down");
+				} else {
+					console.log("style going up");
+				}
 					}
 				}
 
+
+
+				// Rotate the camera
 				particleSystem.rotation.y += 0.01;
 				particleSystem.rotation.z += 0.01;
 
