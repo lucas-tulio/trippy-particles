@@ -1,5 +1,5 @@
-particles
-=========
+trippy-particles
+================
 
 Three.js particles tests.
 
